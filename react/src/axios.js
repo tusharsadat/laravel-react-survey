@@ -8,7 +8,7 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use((config) => {
   const token = "123";
   config.headers.Authorization = `Bearer ${token}`;
-  //return config
+  return config;
 });
 
 axiosClient.interceptors.response.use(

@@ -3,7 +3,6 @@ import {
   PencilIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import React from "react";
 import TButton from "../core/TButton.jsx";
 
 export default function SurveyListItem({ survey, onDeleteClick }) {
