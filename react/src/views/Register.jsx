@@ -1,9 +1,10 @@
 import { useState } from "react";
 import axiosClient from "../axios.js";
-//import { useStateContext } from "../contexts/ContextProvider";
+import { useStateContext } from "../contexts/ContextProvider";
+import { Link } from "react-router-dom";
 
 export default function Register() {
-  //const { setCurrentUser, setUserToken } = useStateContext();
+  const { setCurrentUser, setUserToken } = useStateContext();
   const [fullName, setFullName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -22,10 +23,16 @@ export default function Register() {
         password_confirmation: passwordConfirmation,
       })
       .then(({ data }) => {
-        console.log(data);
+        setCurrentUser(data.user);
+        setUserToken(data.token);
       })
-      .catch(({ error }) => {
-        console.log(error);
+      .catch(({ response }) => {
+        console.log(response);
+        const finalErrors = Object.values(response.data.errors).reduce(
+          (accum, next) => [...accum, ...next],
+          []
+        );
+        setError({ __html: finalErrors.join("<br>") });
       });
   };
   return (
@@ -35,6 +42,12 @@ export default function Register() {
       </h2>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        {error.__html && (
+          <div
+            className="bg-red-500 rounded py-2 px-3 text-white"
+            dangerouslySetInnerHTML={error}
+          ></div>
+        )}
         <form
           action="#"
           method="POST"
@@ -137,13 +150,13 @@ export default function Register() {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Not a member?{" "}
-          <a
-            href="#"
+          Already Login?{" "}
+          <Link
+            to="/login"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            Start a 14 day free trial
-          </a>
+            Click here to login
+          </Link>
         </p>
       </div>
     </>
