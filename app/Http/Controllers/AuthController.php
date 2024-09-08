@@ -37,8 +37,8 @@ class AuthController extends Controller
 
         if (!Auth::attempt($credentials, $remember)) {
             return response([
-                'error' => 'The Provided credentials are not correct'
-            ], 422);
+                'error' => 'Invalid email or password',
+            ], 401);
         }
         $user = Auth::user();
         $token = $user->createToken('main')->plainTextToken;
@@ -53,8 +53,11 @@ class AuthController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
+        /** @var \Laravel\Sanctum\PersonalAccessToken $token */
+        $token = $user->currentAccessToken();
+        $token->delete();
         // Revoke the token that was used to authenticate the current request...
-        $user->currentAccessToken()->delete();
+        //$user->currentAccessToken()->delete();
 
         return response([
             'success' => true

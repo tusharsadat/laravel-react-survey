@@ -9,12 +9,13 @@ import {
 } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
+  //BellIcon,
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Navigate, NavLink, Outlet } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
+import axiosClient from "../axios";
 
 // const user = {
 //   name: "Tom Cook",
@@ -41,7 +42,10 @@ export default function DefaultLayout() {
 
   const logout = (e) => {
     e.preventDefault();
-    console.log("logout");
+    axiosClient.post("/logout").then((res) => {
+      setCurrentUser({});
+      setUserToken(null);
+    });
   };
   return (
     <>

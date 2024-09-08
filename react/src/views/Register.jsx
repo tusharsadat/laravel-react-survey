@@ -23,6 +23,7 @@ export default function Register() {
         password_confirmation: passwordConfirmation,
       })
       .then(({ data }) => {
+        console.log(data);
         setCurrentUser(data.user);
         setUserToken(data.token);
       })

@@ -187,7 +187,9 @@ const tmpSurveys = [
 
 export const ContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
-  const [userToken, _setUserToken] = useState(null);
+  const [userToken, _setUserToken] = useState(
+    localStorage.getItem("TOKEN") || ""
+  );
 
   const setUserToken = (token) => {
     if (token) {
